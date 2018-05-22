@@ -1,4 +1,5 @@
 import { Periode } from '../../../types/domain/Utenlandsopphold';
+import EngangsstonadSoknad from '../../../types/domain/EngangsstonadSoknad';
 
 export enum SoknadActionKeys {
     // RelasjonTilBarn
@@ -30,6 +31,7 @@ export enum SoknadActionKeys {
     'SET_ANNEN_FORELDER_KAN_IKKE_OPPGIS' = 'setAnnenForelderKanIkkeOppgis',
 
     // Annet
+    'RESTORE_SØKNAD' = 'restoreSoknad',
     'RESET_SØKNAD' = 'resetSøknad'
 }
 
@@ -149,6 +151,11 @@ interface SetAnnenForelderKanIkkeOppgis {
     kanIkkeOppgis: boolean;
 }
 
+interface RestoreSøknad {
+    type: SoknadActionKeys.RESTORE_SØKNAD;
+    soknad: EngangsstonadSoknad;
+}
+
 interface ResetSøknad {
     type: SoknadActionKeys.RESET_SØKNAD;
 }
@@ -176,4 +183,5 @@ export type SoknadActionTypes =
     | SetAnnenForelderUtenlandskFnr
     | SetAnnenForelderBostedsland
     | SetAnnenForelderKanIkkeOppgis
+    | RestoreSøknad
     | ResetSøknad;

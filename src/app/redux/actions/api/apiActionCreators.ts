@@ -48,11 +48,60 @@ export function sendSoknadFailed(error: any): ApiActionTypes {
     };
 }
 
+export function getSoknad(): ApiActionTypes {
+    return {
+        type: ApiActionKeys.GET_SOKNAD
+    };
+}
+
+export function getSoknadSuccess(soknad: EngangsstonadSoknad): ApiActionTypes {
+    return {
+        type: ApiActionKeys.GET_SOKNAD_SUCCESS,
+        soknad
+    };
+}
+
+// tslint:disable-next-line:no-any
+export function getSoknadFailed(error: any): ApiActionTypes {
+    return {
+        type: ApiActionKeys.GET_SOKNAD_FAILED,
+        error
+    };
+}
+
+export function saveSoknad(soknad: EngangsstonadSoknad): ApiActionTypes {
+    return {
+        type: ApiActionKeys.SAVE_SOKNAD,
+        soknad,
+    };
+}
+
+export function saveSoknadSuccess(kvittering: any): ApiActionTypes {
+    return {
+        type: ApiActionKeys.SAVE_SOKNAD_SUCCESS,
+        kvittering
+    };
+}
+
+// tslint:disable-next-line:no-any
+export function saveSoknadFailed(error: any): ApiActionTypes {
+    return {
+        type: ApiActionKeys.SAVE_SOKNAD_FAILED,
+        error
+    };
+}
+
 export default {
     getPerson,
     getPersonSuccess,
     getPersonFailed,
     sendSoknad,
     sendSoknadSuccess,
-    sendSoknadFailed
+    sendSoknadFailed,
+    saveSoknad,
+    saveSoknadSuccess,
+    saveSoknadFailed,
+    getSoknad,
+    getSoknadSuccess,
+    getSoknadFailed
 };

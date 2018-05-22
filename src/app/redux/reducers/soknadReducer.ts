@@ -5,7 +5,7 @@ import { FodtBarn } from '../../types/domain/Barn';
 const getDefaultState = () => {
     const engangsstonadSoknad: EngangsstonadSoknad = {
         barn: {
-            fødselsdatoer: []  
+            fødselsdatoer: []
         },
         utenlandsopphold: {
             tidligerePerioder: [],
@@ -18,7 +18,7 @@ const getDefaultState = () => {
 };
 
 const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => {
-    let { barn, utenlandsopphold, vedlegg } = state;
+    let {barn, utenlandsopphold, vedlegg} = state;
     switch (action.type) {
         case SoknadActionKeys.ADD_VEDLEGG:
             const vedleggMetaData = vedlegg.map((file: File) => (
@@ -30,9 +30,9 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
 
             const newVedlegg = action.vedlegg.filter((file: File) => {
                 return (!vedleggMetaData.includes(JSON.stringify({
-                    name: file.name,
-                    size: file.size
-                })
+                        name: file.name,
+                        size: file.size
+                    })
                 ));
             });
 
@@ -49,10 +49,10 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
             };
         case SoknadActionKeys.ADD_TIDLIGERE_UTENLANDSOPPHOLD_PERIODE:
             const tidligerePerioder = utenlandsopphold.tidligerePerioder.concat([action.periode]);
-            return { ...state, utenlandsopphold: { ...utenlandsopphold, tidligerePerioder } };
+            return {...state, utenlandsopphold: {...utenlandsopphold, tidligerePerioder}};
         case SoknadActionKeys.EDIT_TIDLIGERE_UTENLANDSOPPHOLD_PERIODE:
             utenlandsopphold.tidligerePerioder[action.index] = action.periode;
-            return { ...state, utenlandsopphold };
+            return {...state, utenlandsopphold};
         case SoknadActionKeys.DELETE_TIDLIGERE_UTENLANDSOPPHOLD_PERIODE:
             return {
                 ...state,
@@ -66,10 +66,10 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
 
         case SoknadActionKeys.ADD_SENERE_UTENLANDSOPPHOLD_PERIODE:
             const senerePerioder = utenlandsopphold.senerePerioder.concat([action.periode]);
-            return { ...state, utenlandsopphold: { ...utenlandsopphold, senerePerioder } };
+            return {...state, utenlandsopphold: {...utenlandsopphold, senerePerioder}};
         case SoknadActionKeys.EDIT_SENERE_UTENLANDSOPPHOLD_PERIODE:
             utenlandsopphold.senerePerioder[action.index] = action.periode;
-            return { ...state, utenlandsopphold };
+            return {...state, utenlandsopphold};
         case SoknadActionKeys.DELETE_SENERE_UTENLANDSOPPHOLD_PERIODE:
             return {
                 ...state,
@@ -82,13 +82,13 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
             };
 
         case SoknadActionKeys.SET_JOBBET_I_NORGE_SISTE_12_MND:
-            const { jobbetINorgeSiste12Mnd } = action;
-            return { ...state, utenlandsopphold: { ...utenlandsopphold, jobbetINorgeSiste12Mnd } };
+            const {jobbetINorgeSiste12Mnd} = action;
+            return {...state, utenlandsopphold: {...utenlandsopphold, jobbetINorgeSiste12Mnd}};
         case SoknadActionKeys.SET_FODSEL_I_NORGE:
-            const { fødselINorge } = action;
-            return { ...state, utenlandsopphold: { ...utenlandsopphold, fødselINorge } };
+            const {fødselINorge} = action;
+            return {...state, utenlandsopphold: {...utenlandsopphold, fødselINorge}};
         case SoknadActionKeys.SET_I_NORGE_SISTE_12_MND:
-            const { iNorgeSiste12Mnd } = action;
+            const {iNorgeSiste12Mnd} = action;
             return {
                 ...state, utenlandsopphold: {
                     ...getDefaultState().utenlandsopphold,
@@ -100,7 +100,7 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
                 }
             };
         case SoknadActionKeys.SET_I_NORGE_NESTE_12_MND:
-            const { iNorgeNeste12Mnd } = action;
+            const {iNorgeNeste12Mnd} = action;
             return {
                 ...state,
                 utenlandsopphold: {
@@ -113,52 +113,61 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
                 }
             };
         case SoknadActionKeys.SET_ER_BARNET_FODT:
-            const { erBarnetFødt } = action;
-            return { ...state, barn: { fødselsdatoer: [], erBarnetFødt }, vedlegg: [], utenlandsopphold: { ...utenlandsopphold, fødselINorge: undefined } };
+            const {erBarnetFødt} = action;
+            return {...state, barn: {fødselsdatoer: [], erBarnetFødt}, vedlegg: [], utenlandsopphold: {...utenlandsopphold, fødselINorge: undefined}};
         case SoknadActionKeys.SET_ANTALL_BARN:
-            return { ...state, barn: { ...barn, antallBarn: action.antallBarn } };
+            return {...state, barn: {...barn, antallBarn: action.antallBarn}};
         case SoknadActionKeys.SET_FØDSELSDATO:
             let fødselsdatoer = (state.barn as FodtBarn).fødselsdatoer.slice(0);
             fødselsdatoer[0] = action.fødselsdato;
-            return { ...state, 
-                barn: { 
-                    ...barn, 
-                    fødselsdatoer 
+            return {
+                ...state,
+                barn: {
+                    ...barn,
+                    fødselsdatoer
                 }
-            }; 
+            };
         case SoknadActionKeys.SET_TERMINDATO:
-            const { termindato } = action;
+            const {termindato} = action;
             return {
                 ...state,
                 barn: barn ?
-                    { ...barn, termindato } : { termindato }
+                    {...barn, termindato} : {termindato}
             };
         case SoknadActionKeys.SET_TERMINBEKREFTELSE_DATO:
-            const { terminbekreftelseDato } = action;
+            const {terminbekreftelseDato} = action;
             return {
                 ...state,
-                barn: barn ? { ...barn, terminbekreftelseDato } : { terminbekreftelseDato }
+                barn: barn ? {...barn, terminbekreftelseDato} : {terminbekreftelseDato}
             };
         case SoknadActionKeys.SET_ANNEN_FORELDER_NAVN:
-            const { navn } = action;
-            return { ...state, annenForelder: { ...state.annenForelder, navn } };
+            const {navn} = action;
+            return {...state, annenForelder: {...state.annenForelder, navn}};
         case SoknadActionKeys.SET_ANNEN_FORELDER_FNR:
             const fnr = action.fnr.length > 0 ? action.fnr : undefined;
-            return { ...state, annenForelder: { ...state.annenForelder, fnr } };
+            return {...state, annenForelder: {...state.annenForelder, fnr}};
         case SoknadActionKeys.SET_ANNEN_FORELDER_UTENLANDSK_FNR:
-            const { utenlandskFnr } = action;
-            return { ...state, annenForelder: { ...state.annenForelder, utenlandskFnr, bostedsland: undefined } };
+            const {utenlandskFnr} = action;
+            return {...state, annenForelder: {...state.annenForelder, utenlandskFnr, bostedsland: undefined}};
         case SoknadActionKeys.SET_ANNEN_FORELDER_BOSTEDSLAND:
-            const { bostedsland } = action;
-            return { ...state, annenForelder: { ...state.annenForelder, bostedsland } };
+            const {bostedsland} = action;
+            return {...state, annenForelder: {...state.annenForelder, bostedsland}};
         case SoknadActionKeys.SET_ANNEN_FORELDER_KAN_IKKE_OPPGIS:
-            const { kanIkkeOppgis } = action;
-            return { ...state, annenForelder: { kanIkkeOppgis } };
+            const {kanIkkeOppgis} = action;
+            return {...state, annenForelder: {kanIkkeOppgis}};
 
+        case SoknadActionKeys.RESTORE_SØKNAD:
+
+            return {...action.soknad[0], vedlegg: [toFile(action.soknad[1][0])]};
         case SoknadActionKeys.RESET_SØKNAD:
             return getDefaultState();
     }
     return state;
 };
+
+function toFile(file: any) {
+    return new File(file.part._bout.buf, file.filename);
+
+}
 
 export default soknadReducer;

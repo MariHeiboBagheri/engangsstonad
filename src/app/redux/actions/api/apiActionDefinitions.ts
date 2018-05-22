@@ -4,6 +4,12 @@ import { EngangsstonadSoknadResponse } from '../../../types/services/Engangsston
 import PersonRequest from '../../../types/services/PersonRequest';
 
 export enum ApiActionKeys {
+    'GET_SOKNAD' = 'getSoknad',
+    'GET_SOKNAD_SUCCESS' = 'getSoknadSuccess',
+    'GET_SOKNAD_FAILED' = 'getSoknadFailed',
+    'SAVE_SOKNAD' = 'saveSoknad',
+    'SAVE_SOKNAD_SUCCESS' = 'saveSoknadSuccess',
+    'SAVE_SOKNAD_FAILED' = 'saveSoknadFailed',
     'GET_PERSON' = 'getPerson',
     'GET_PERSON_SUCCESS' = 'getPersonSuccess',
     'GET_PERSON_FAILED' = 'getPersonFailed',
@@ -44,8 +50,40 @@ interface SendSoknadFailed {
     error: any;
 }
 
+interface GetSoknad {
+    type: ApiActionKeys.GET_SOKNAD;
+}
+
+interface GetSoknadSuccess {
+    type: ApiActionKeys.GET_SOKNAD_SUCCESS;
+    soknad: EngangsstonadSoknad;
+}
+
+interface GetSoknadFailed {
+    type: ApiActionKeys.GET_SOKNAD_FAILED;
+    // tslint:disable-next-line:no-any
+    error: any;
+}
+
+interface SaveSoknad {
+    type: ApiActionKeys.SAVE_SOKNAD;
+    soknad: EngangsstonadSoknad;
+}
+
+interface SaveSoknadSuccess {
+    type: ApiActionKeys.SAVE_SOKNAD_SUCCESS;
+    kvittering: any;
+}
+
+interface SaveSoknadFailed {
+    type: ApiActionKeys.SAVE_SOKNAD_FAILED;
+    error: any;
+}
+
 export type GetPersonActionType = GetPersonSuccess | GetPersonFailed;
 export type SendSoknadActionType = SendSoknadSuccess | SendSoknadFailed;
+export type SaveSoknadActionType = SaveSoknadSuccess | SaveSoknadFailed;
+export type GetSoknadActionType = GetSoknadSuccess | GetSoknadFailed;
 
 export type ApiActionTypes =
     | GetPerson
@@ -53,4 +91,11 @@ export type ApiActionTypes =
     | GetPersonFailed
     | SendSoknad
     | SendSoknadSuccess
-    | SendSoknadFailed;
+    | SendSoknadFailed
+    | SaveSoknad
+    | SaveSoknadSuccess
+    | SaveSoknadFailed
+    | GetSoknad
+    | GetSoknadFailed
+    | GetSoknadSuccess;
+

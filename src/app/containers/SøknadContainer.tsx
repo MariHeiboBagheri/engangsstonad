@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { RouteComponentProps, Prompt } from 'react-router';
-import { injectIntl, InjectedIntlProps } from 'react-intl';
+import { Prompt, RouteComponentProps } from 'react-router';
+import { InjectedIntlProps, injectIntl } from 'react-intl';
 import { connect } from 'react-redux';
 import { Hovedknapp } from 'nav-frontend-knapper';
 
@@ -18,7 +18,10 @@ import Søknadstittel from 'components/søknadstittel/Søknadstittel';
 import SkjemaHeader from 'components/skjema-header/SkjemaHeader';
 import Person from 'app/types/domain/Person';
 import CancelButton from 'components/cancel-button/CancelButton';
-const { ValidForm } = require('./../lib') as any;
+import SaveButton from 'components/save-button/SaveButton';
+import RestoreButton from 'components/restore-button/RestoreButton';
+
+const {ValidForm} = require('./../lib') as any;
 
 interface OwnProps {
     person: Person;
@@ -42,8 +45,8 @@ class SøknadContainer extends React.Component<Props> {
     }
 
     componentWillReceiveProps(props: OwnProps) {
-        const { history } = this.props;
-        const { error, søknadSendt } = props;
+        const {history} = this.props;
+        const {error, søknadSendt} = props;
         if (søknadSendt === true) {
             if (!error) {
                 history.push('/engangsstonad');
@@ -54,13 +57,13 @@ class SøknadContainer extends React.Component<Props> {
     }
 
     hasToWaitForResponse() {
-        const { activeStep, intl, person } = this.props;
+        const {activeStep, intl, person} = this.props;
         const stepsConfig = getStepConfig(intl, person);
         return activeStep === stepsConfig.length;
     }
 
     handleNextClicked() {
-        const { dispatch, annenForelder, barn, utenlandsopphold, vedlegg } = this.props;
+        const {dispatch, annenForelder, barn, utenlandsopphold, vedlegg} = this.props;
         if (this.hasToWaitForResponse()) {
             return dispatch(
                 api.sendSoknad({
@@ -71,25 +74,25 @@ class SøknadContainer extends React.Component<Props> {
                 })
             );
         }
-        const { activeStep } = this.props;
+        const {activeStep} = this.props;
         dispatch(stepActions.setActiveStep(activeStep + 1));
     }
 
     handleBackClicked() {
-        const { dispatch, activeStep } = this.props;
+        const {dispatch, activeStep} = this.props;
         if (activeStep > 1) {
             dispatch(stepActions.setActiveStep(activeStep - 1));
         }
     }
 
     shouldRenderFortsettKnapp(): boolean {
-        const { activeStep, annenForelder, utenlandsopphold, barn, person, vedlegg, intl } = this.props;
+        const {activeStep, annenForelder, utenlandsopphold, barn, person, vedlegg, intl} = this.props;
         const stepConfig = getStepConfig(intl, person);
-        return stepConfig[activeStep - 1].nextStepCondition({ barn, annenForelder, utenlandsopphold, vedlegg });
+        return stepConfig[activeStep - 1].nextStepCondition({barn, annenForelder, utenlandsopphold, vedlegg});
     }
 
     render() {
-        const { intl, activeStep, søknadSendingInProgress, person } = this.props;
+        const {intl, activeStep, søknadSendingInProgress, person, dispatch, annenForelder, barn, utenlandsopphold, vedlegg} = this.props;
         const stepsConfig = getStepConfig(intl, person);
         const titles = stepsConfig.map((stepConf) => stepConf.stegIndikatorLabel);
         const fortsettKnappLabel = stepsConfig[activeStep - 1].fortsettKnappLabel;
@@ -99,23 +102,23 @@ class SøknadContainer extends React.Component<Props> {
             <div>
                 <Prompt
                     message={nextLocation => {
-                        const { location } = this.props;
+                        const {location} = this.props;
                         if (location.pathname === nextLocation.pathname && nextLocation.hash !== location.hash) {
                             return true;
                         }
                         return 'Hvis du går ut av siden vil du miste all informasjonen som du har fylt ut i søknaden. Ønsker du å fortsette?';
                     }}
                 />
-                <Søknadstittel tittel={getMessage(intl, 'søknad.pageheading')} />
+                <Søknadstittel tittel={getMessage(intl, 'søknad.pageheading')}/>
                 <ValidForm
                     summaryTitle="Du må rette opp i følgende feil:"
                     noSummary={activeStep === stepsConfig.length - 1}
                     onSubmit={this.handleNextClicked}
                     className="responsiveContainer"
                 >
-                    <SkjemaHeader onPrevious={() => this.handleBackClicked()} activeStep={activeStep} stepTitles={titles} />
+                    <SkjemaHeader onPrevious={() => this.handleBackClicked()} activeStep={activeStep} stepTitles={titles}/>
 
-                    <ActiveStep />
+                    <ActiveStep/>
 
                     {this.shouldRenderFortsettKnapp() && (
                         <Hovedknapp className="responsiveButton" disabled={søknadSendingInProgress} spinner={søknadSendingInProgress}>
@@ -123,6 +126,19 @@ class SøknadContainer extends React.Component<Props> {
                         </Hovedknapp>
                     )}
                     <CancelButton redirect="https://tjenester.nav.no/dittnav/oversikt"/>
+                    <SaveButton
+                        onClick={() => dispatch(
+                            api.saveSoknad({
+                                annenForelder,
+                                barn,
+                                utenlandsopphold,
+                                vedlegg
+                            }))}
+                    />
+                    <RestoreButton
+                        onClick={() => dispatch(
+                            api.getSoknad())}
+                    />
                 </ValidForm>
             </div>
         );
