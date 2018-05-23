@@ -158,16 +158,17 @@ const soknadReducer = (state = getDefaultState(), action: SoknadActionTypes) => 
 
         case SoknadActionKeys.RESTORE_SØKNAD:
 
-            return {...action.soknad[0], vedlegg: [toFile(action.soknad[1][0])]};
+            return {...action.soknad[0], vedlegg: transformToFiles(action.soknad[1])};
         case SoknadActionKeys.RESET_SØKNAD:
             return getDefaultState();
     }
     return state;
 };
 
-function toFile(file: any) {
-    return new File(file.part._bout.buf, file.filename);
-
+function transformToFiles(files: Object) {
+    return Object.entries(files).map(([k, v]) => {
+        return new File(v, k);
+    });
 }
 
 export default soknadReducer;

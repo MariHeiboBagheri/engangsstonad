@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Veilederinfo from 'components/veileder-info/Veilederinfo';
-import { FormattedMessage, injectIntl, InjectedIntlProps } from 'react-intl';
+import { FormattedMessage, InjectedIntlProps, injectIntl } from 'react-intl';
 import AttachmentInput from 'components/attachment-input/AttachmentInput';
 import { validerSamletFilstørrelse } from 'components/attachment-input/utils';
 import { bytesString } from 'util/attachment/utils';
@@ -9,24 +9,26 @@ const MAX_TOTAL_SIZE = 1024 * 1024 * 7.5;
 
 export interface OwnProps {
     vedlegg: File[];
+    vedleggURL: URL;
     onFilesSelect: (files: File[]) => void;
     onFileDelete: (file: File) => void;
+    onFileSave: (file: File) => void;
 }
 
-const Terminbekreftelse: React.StatelessComponent<
-    OwnProps & InjectedIntlProps
-> = props => (
+const Terminbekreftelse: React.StatelessComponent<OwnProps & InjectedIntlProps> = props => (
     <div className="terminbekreftelse">
         <div className="blokk-m">
             <Veilederinfo>
-                <FormattedMessage id="terminbekreftelsen.text.terminbekreftelsen" />
+                <FormattedMessage id="terminbekreftelsen.text.terminbekreftelsen"/>
             </Veilederinfo>
         </div>
         <AttachmentInput
             vedlegg={props.vedlegg}
             onFileDelete={props.onFileDelete}
+            onFileSave={props.onFileSave}
             onFilesSelect={props.onFilesSelect}
             visFilstørrelse={true}
+            vedleggURL={props.vedleggURL}
             uploadValidation={{
                 name: 'vedleggInput',
                 validators: [

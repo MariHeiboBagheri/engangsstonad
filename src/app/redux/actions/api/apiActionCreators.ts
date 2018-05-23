@@ -91,6 +91,28 @@ export function saveSoknadFailed(error: any): ApiActionTypes {
     };
 }
 
+export function saveVedlegg(vedlegg: File): ApiActionTypes {
+    return {
+        type: ApiActionKeys.SAVE_VEDLEGG,
+        vedlegg
+    };
+}
+
+export function saveVedleggSuccess(uri: URL): ApiActionTypes {
+    return {
+        type: ApiActionKeys.SAVE_VEDLEGG_SUCCESS,
+        uri
+    };
+}
+
+// tslint:disable-next-line:no-any
+export function saveVedleggFailed(error: any): ApiActionTypes {
+    return {
+        type: ApiActionKeys.SAVE_VEDLEGG_FAILED,
+        error
+    };
+}
+
 export default {
     getPerson,
     getPersonSuccess,

@@ -20,6 +20,7 @@ interface StateProps {
     barn: Barn;
     person: Person;
     vedlegg: File[];
+    vedleggURL: URL;
 }
 
 type Props = StateProps & InjectedIntlProps & DispatchProps;
@@ -58,11 +59,11 @@ class Steg1 extends React.Component<Props, State> {
     }
 
     renderPartial() {
-        const { barn, vedlegg, intl, dispatch } = this.props;
+        const {barn, vedlegg, intl, dispatch, vedleggURL} = this.props;
         if (barn.erBarnetFødt === true) {
             return <steg1Partials.FødtBarnPartial barn={barn} intl={intl} dispatch={dispatch} />;
         } else if (barn.erBarnetFødt === false) {
-            return <steg1Partials.UfødtBarnPartial barn={barn} vedlegg={vedlegg} intl={intl} dispatch={dispatch} />;
+            return <steg1Partials.UfødtBarnPartial barn={barn} vedlegg={vedlegg} intl={intl} dispatch={dispatch} vedleggURL={vedleggURL}/>;
         }
         return null;
     }
@@ -132,7 +133,8 @@ class Steg1 extends React.Component<Props, State> {
 const mapStateToProps = (state: any) => ({
     barn: state.soknadReducer.barn,
     person: state.commonReducer.person,
-    vedlegg: state.soknadReducer.vedlegg
+    vedlegg: state.soknadReducer.vedlegg,
+    vedleggURL: state.apiReducer.vedleggURL
 });
 
 export default connect<StateProps, {}, {}>(mapStateToProps)(injectIntl(Steg1));

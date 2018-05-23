@@ -15,6 +15,13 @@ export function deleteVedlegg( vedlegg: File) {
     };
 }
 
+export function saveVedlegg(vedlegg: File) {
+    return {
+        type: SoknadActionKeys.SAVE_VEDLEGG,
+        vedlegg
+    };
+}
+
 export function addTidligereUtenlandsoppholdPeriode(periode: Periode): SoknadActionTypes {
     return {
         type: SoknadActionKeys.ADD_TIDLIGERE_UTENLANDSOPPHOLD_PERIODE,
@@ -78,7 +85,7 @@ export function setFødselsdato(fødselsdato: string): SoknadActionTypes {
         type: SoknadActionKeys.SET_FØDSELSDATO,
         fødselsdato
     };
-} 
+}
 
 export function setTermindato(termindato: string): SoknadActionTypes {
     return {
@@ -172,6 +179,7 @@ export default {
     deleteSenereUtenlandsoppholdPeriode,
     addVedlegg,
     deleteVedlegg,
+    saveVedlegg,
     setAntallBarn,
     setErBarnetFødt,
     setFødselsdato,

@@ -9,6 +9,7 @@ export enum SoknadActionKeys {
     'SET_TERMINDATO' = 'setTermindato',
     'SET_TERMINBEKREFTELSE_DATO' = 'setTerminbekreftelseDato',
     'ADD_VEDLEGG' = 'addVedlegg',
+    'SAVE_VEDLEGG' = 'saveVedlegg',
     'DELETE_VEDLEGG' = 'deleteVedlegg',
 
     // Medlemsskap

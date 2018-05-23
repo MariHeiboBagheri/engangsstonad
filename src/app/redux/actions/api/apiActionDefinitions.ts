@@ -10,6 +10,9 @@ export enum ApiActionKeys {
     'SAVE_SOKNAD' = 'saveSoknad',
     'SAVE_SOKNAD_SUCCESS' = 'saveSoknadSuccess',
     'SAVE_SOKNAD_FAILED' = 'saveSoknadFailed',
+    'SAVE_VEDLEGG' = 'saveVedlegg',
+    'SAVE_VEDLEGG_SUCCESS' = 'saveVedleggSuccess',
+    'SAVE_VEDLEGG_FAILED' = 'saveVedleggFailed',
     'GET_PERSON' = 'getPerson',
     'GET_PERSON_SUCCESS' = 'getPersonSuccess',
     'GET_PERSON_FAILED' = 'getPersonFailed',
@@ -80,9 +83,25 @@ interface SaveSoknadFailed {
     error: any;
 }
 
+interface SaveVedlegg {
+    type: ApiActionKeys.SAVE_VEDLEGG;
+    vedlegg: File;
+}
+
+interface SaveVedleggSuccess {
+    type: ApiActionKeys.SAVE_VEDLEGG_SUCCESS;
+    uri: URL;
+}
+
+interface SaveVedleggFailed {
+    type: ApiActionKeys.SAVE_VEDLEGG_FAILED;
+    error: any;
+}
+
 export type GetPersonActionType = GetPersonSuccess | GetPersonFailed;
 export type SendSoknadActionType = SendSoknadSuccess | SendSoknadFailed;
 export type SaveSoknadActionType = SaveSoknadSuccess | SaveSoknadFailed;
+export type SaveVedleggActionType = SaveVedleggSuccess | SaveVedleggFailed;
 export type GetSoknadActionType = GetSoknadSuccess | GetSoknadFailed;
 
 export type ApiActionTypes =
@@ -95,7 +114,9 @@ export type ApiActionTypes =
     | SaveSoknad
     | SaveSoknadSuccess
     | SaveSoknadFailed
+    | SaveVedlegg
+    | SaveVedleggSuccess
+    | SaveVedleggFailed
     | GetSoknad
     | GetSoknadFailed
     | GetSoknadSuccess;
-

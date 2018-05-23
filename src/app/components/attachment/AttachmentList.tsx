@@ -5,12 +5,14 @@ import Attachment from 'components/attachment/Attachment';
 
 interface Props {
     vedlegg: File[];
+    vedleggURL: URL;
     visFilstørrelse?: boolean;
     onDelete?: (file: File) => void;
+    onSave?: (file: File) => void;
 }
 
 const AttachmentList: React.StatelessComponent<Props> = props => {
-    const { vedlegg, visFilstørrelse, onDelete } = props;
+    const {vedlegg, vedleggURL, visFilstørrelse, onDelete, onSave} = props;
     return (
         <ul className="attachmentList">
             {vedlegg.map((vedleggFile, index) => (
@@ -18,7 +20,9 @@ const AttachmentList: React.StatelessComponent<Props> = props => {
                     <Attachment
                         vedlegg={vedleggFile}
                         onDelete={onDelete}
+                        onSave={onSave}
                         visFilstørrelse={visFilstørrelse}
+                        vedleggURL={vedleggURL}
                     />
                 </li>
             ))}

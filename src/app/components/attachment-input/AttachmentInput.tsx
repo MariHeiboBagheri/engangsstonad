@@ -9,9 +9,11 @@ import { bytesString, getTotalFileSize } from 'util/attachment/utils';
 
 export interface Props {
     vedlegg: File[];
+    vedleggURL: URL;
     visFilstørrelse?: boolean;
     onFilesSelect: (files: File[]) => void;
     onFileDelete: (file: File) => void;
+    onFileSave: (file: File) => void;
     uploadValidation: {
         name: string;
         validators: Validator[];
@@ -26,8 +28,10 @@ class AttachmentInput extends React.Component<Props> {
     render() {
         const {
             vedlegg,
+            vedleggURL,
             visFilstørrelse,
             onFileDelete,
+            onFileSave,
             onFilesSelect,
             uploadValidation,
             listValidation
@@ -67,8 +71,10 @@ class AttachmentInput extends React.Component<Props> {
                         </div>
                         <AttachmentList
                             vedlegg={vedlegg}
+                            vedleggURL={vedleggURL}
                             visFilstørrelse={visFilstørrelse}
                             onDelete={(file: File) => onFileDelete(file)}
+                            onSave={(file: File) => onFileSave(file)}
                         />
                     </ValidGroup>
                 )}

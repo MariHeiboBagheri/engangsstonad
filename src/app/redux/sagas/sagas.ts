@@ -28,6 +28,18 @@ function* sendSoknad(action: any) {
 }
 
 // tslint:disable-next-line:no-any
+function* saveVedlegg(action: any) {
+    try {
+        const response = yield call(Api.saveVedlegg, action.vedlegg);
+        const uri: URL = response.headers.location;
+
+        yield put({type: ApiActionKeys.SAVE_VEDLEGG_SUCCESS, uri});
+    } catch (error) {
+        yield put({type: ApiActionKeys.SAVE_VEDLEGG_FAILED, error});
+    }
+}
+
+// tslint:disable-next-line:no-any
 function* saveSoknad(action: any) {
     try {
         const response = yield call(Api.saveSoknad, action.soknad, action.vedlegg);
@@ -54,6 +66,7 @@ export default function* sagas() {
         takeEvery(ApiActionKeys.GET_PERSON, getPerson),
         takeEvery(ApiActionKeys.SEND_SOKNAD, sendSoknad),
         takeEvery(ApiActionKeys.SAVE_SOKNAD, saveSoknad),
-        takeLatest(ApiActionKeys.GET_SOKNAD, getSoknad)
+        takeLatest(ApiActionKeys.GET_SOKNAD, getSoknad),
+        takeLatest(ApiActionKeys.SAVE_VEDLEGG, saveVedlegg)
     ]);
 }
