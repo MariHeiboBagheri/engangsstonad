@@ -31,6 +31,7 @@ node {
     }
 
     stage('Deploy to preprod') {
+        def imageVersion = "0.10-883ae20"
         withCredentials([usernamePassword(credentialsId: 'srvJenkinsBris', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'), string(credentialsId: 'OAUTH_TOKEN', variable: 'token')]) {
             withEnv(['HTTPS_PROXY=http://webproxy-internett.nav.no:8088',
                 'HTTP_PROXY=http://webproxy-internett.nav.no:8088',
@@ -38,7 +39,7 @@ node {
                 'http_proxy=http://webproxy-internett.nav.no:8088',
                 'NO_PROXY=localhost,127.0.0.1,.local,.adeo.no,.nav.no,.aetat.no,.devillo.no,.oera.no',
                 'no_proxy=localhost,127.0.0.1,.local,.adeo.no,.nav.no,.aetat.no,.devillo.no,.oera.no']) {
-                def deployOk = deployToNais("engangsstonad", "LATEST", "t1", "sbs", "${USERNAME}", "${PASSWORD}", "bris", "https://${token}:x-oauth-basic@raw.githubusercontent.com/navikt/engangsstonad/gke/nais.yaml")
+                def deployOk = deployToNais("engangsstonad", "${imageVersion}", "t1", "sbs", "${USERNAME}", "${PASSWORD}", "bris", "https://${token}:x-oauth-basic@raw.githubusercontent.com/navikt/engangsstonad/gke/nais.yaml")
                 if (!deployOk) {
                     currentBuild.result = "FAILURE"
                     return
