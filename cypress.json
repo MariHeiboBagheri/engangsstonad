@@ -1,4 +1,5 @@
 {
-  "baseUrl": "http://localhost:8081",
-  "videoRecording": false
+  "baseUrl": "https://engangsstonad-q.nav.no/",
+  "videoRecording": false,
+  "chromeWebSecurity": false
 }
