@@ -6,7 +6,7 @@ node {
     def committer, committerEmail, changelog, releaseVersion
     def appConfig = "nais.yaml"
     def dockerRepo = "repo.adeo.no:5443"
-    def branch = "master"
+    def branch = "gke"
     def groupId = "nais"
     def environment = 't1'
     def zone = 'sbs'
@@ -38,7 +38,7 @@ node {
                 'http_proxy=http://webproxy-internett.nav.no:8088',
                 'NO_PROXY=localhost,127.0.0.1,.local,.adeo.no,.nav.no,.aetat.no,.devillo.no,.oera.no',
                 'no_proxy=localhost,127.0.0.1,.local,.adeo.no,.nav.no,.aetat.no,.devillo.no,.oera.no']) {
-                def deployOk = deployToNais("engangsstonad", "LATEST", "t1", "sbs", "${USERNAME}", "${PASSWORD}", "bris", "https://${token}:x-oauth-basic@raw.githubusercontent.com/navikt/engangsstonad/gke/nais.yaml")
+                def deployOk = deployToNais("engangsstonad", "LATEST", "t1", "sbs", "${USERNAME}", "${PASSWORD}", "bris", "https://${token}:x-oauth-basic@raw.githubusercontent.com/navikt/engangsstonad/${branch}/nais.yaml")
                 if (!deployOk) {
                     currentBuild.result = "FAILURE"
                     return
