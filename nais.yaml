@@ -1,5 +1,5 @@
 name: engangsstonad
-image: repo.adeo.no:5443/engangsstonad
+image: gcr.io/nais-dev/engangsstonad
 replicas: 
   min: 2 
   max: 2 
